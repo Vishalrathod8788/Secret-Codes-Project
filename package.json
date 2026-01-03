@@ -1,0 +1,24 @@
+{
+  "name": "secret-codes-project",
+  "version": "1.0.0",
+  "description": "learn and master in express.js",
+  "homepage": "https://github.com/Vishalrathod8788/Secret-Codes-Project#readme",
+  "bugs": {
+    "url": "https://github.com/Vishalrathod8788/Secret-Codes-Project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vishalrathod8788/Secret-Codes-Project.git"
+  },
+  "license": "ISC",
+  "author": "Vishal Rathod",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --env-file=.env --watch app.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
