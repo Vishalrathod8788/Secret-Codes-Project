@@ -1,9 +1,14 @@
 import express from "express";
+import {
+  readFile,
+  readList,
+  writeFileContent,
+} from "../controllers/secretController.js";
 
 const router = express.Router();
 
-router.get("/secret", (req, res) => {
-  res.json({ message: "This is a secret message!" });
-});
+router.get("/", readFile);
+router.get("/list", readList);
+router.post("/", writeFileContent);
 
 export default router;

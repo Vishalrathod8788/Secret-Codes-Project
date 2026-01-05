@@ -4,6 +4,7 @@ import secretRoutes from "./routes/secretRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
 app.use("/", secretRoutes);
 
 app.listen(PORT, () => {
