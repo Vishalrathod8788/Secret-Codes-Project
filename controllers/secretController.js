@@ -71,14 +71,16 @@ export const deleteFile = (req, res) => {
 };
 
 export const clearFile = (req, res) => {
-  if (fs.existsSync(FilePath)) {
-    res.status(404).json({ message: "Code not found to clear" });
+  if (!fs.existsSync(FilePath)) {
+    return res.status(404).json({ message: "Code not found to clear" });
   }
   fs.writeFile(FilePath, "", (err) => {
     if (err) {
       return res.status(500).json({ message: "something wents wrong" });
     }
-    res.status(200).json({ message: "File content cleared successfully" });
+    return res
+      .status(200)
+      .json({ message: "File content cleared successfully" });
   });
 };
 
@@ -103,5 +105,47 @@ export const metadataFile = (req, res) => {
     };
 
     res.status(200).json(metadata);
+  });
+};
+
+export const serchFile = (req, res) => {
+  const searchData = req.query.q;
+
+  fs.readFile(FilePath, "utf-8", (err, data) => {
+    if (err) {
+      if (err.code === "ENOENT") {
+        return res.status(404).json({ message: "Code not found" });
+      }
+      return res.status(500).json({ message: "something wants wrong" });
+    }
+    const exists = data.toLowerCase().includes(searchData.toLowerCase());
+
+    res.status(200).json({ found: exists });
+  });
+};
+
+export const backupFile = (req, res) => {
+  const { admin } = req.body;
+  if (admin !== true) {
+    return res.status(403).json({
+      message: "Unauthorized: Access denied. Only admins can perform backup.",
+    });
+  }
+
+  const backupPath = "secret_backup.txt";
+
+  fs.copyFile(FilePath, backupPath, (err) => {
+    if (err) {
+      if (err.code === "ENOENT") {
+        return res.status(404).json({ message: "No code found" });
+      }
+      console.log(err);
+      return res.status(500).json({ message: "something wants wrongs" });
+    }
+
+    res.status(200).json({
+      message: "Backup file succssefully created",
+      File: "secret_backup.txt",
+    });
   });
 };

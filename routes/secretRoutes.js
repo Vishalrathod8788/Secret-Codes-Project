@@ -7,6 +7,8 @@ import {
   deleteFile,
   clearFile,
   metadataFile,
+  serchFile,
+  backupFile,
 } from "../controllers/secretController.js";
 
 const router = express.Router();
@@ -18,5 +20,7 @@ router.patch("/", appendFileContent);
 router.delete("/", deleteFile);
 router.patch("/clear", clearFile);
 router.get("/metadata", metadataFile);
+router.get("/search", serchFile);
+router.post("/backup", backupFile);
 
 export default router;
