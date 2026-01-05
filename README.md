@@ -42,17 +42,17 @@ A Node.js and Express-based backend API that manages a text file (`secret.txt`) 
 
 ## 📍 API Endpoints
 
-| Method | Endpoint | Description | Body/Query |
-|--------|----------|-------------|------------|
-| GET | `/` | Read entire file content | - |
-| GET | `/list` | Get all codes as array | - |
-| POST | `/` | Write/overwrite file content | `{"secret_message": "your content"}` |
-| PATCH | `/` | Append new content to file | `{"secret_message": "new content"}` |
-| GET | `/metadata` | Get file size and timestamps | - |
-| GET | `/search?q=word` | Search for specific word | Query: `q=searchterm` |
-| PATCH | `/clear` | Clear all file content | - |
-| POST | `/backup` | Create backup file | `{"admin": true}` |
-| DELETE | `/` | Delete the file permanently | - |
+| Method | Endpoint | Description | Body / Query |
+| :--- | :--- | :--- | :--- |
+| **GET** | `/` | Read entire file content | - |
+| **GET** | `/list` | Get all codes as array | - |
+| **POST** | `/` | Write/overwrite file | `{"secret_message": "..."}` |
+| **PATCH** | `/` | Append new content | `{"secret_message": "..."}` |
+| **GET** | `/metadata` | File size & timestamps | - |
+| **GET** | `/search` | Case-insensitive search | `?q=searchterm` |
+| **PATCH** | `/clear` | Empty file content | - |
+| **POST** | `/backup` | Create backup file | `{"admin": true}` |
+| **DELETE** | `/` | Delete file permanently | - |
 
 ## 📝 API Usage Examples
 
