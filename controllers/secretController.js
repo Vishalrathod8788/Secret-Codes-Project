@@ -22,8 +22,8 @@ export const readList = (req, res) => {
     if (err) {
       return res.status(404).json({ message: "No code found" });
     }
-    const list = data.split("/n").filter((line) => line > 0);
-    res.status(200).send(list);
+    const list = data.split("\n").filter((line) => line.length > 0);
+    res.status(201).send(list);
   });
 };
 
@@ -40,5 +40,68 @@ export const writeFileContent = (req, res) => {
       res.status(500).json({ message: `${err}, "Error Writing File"` });
     }
     res.status(201).json({ message: "data successfully write" });
+  });
+};
+
+export const appendFileContent = (req, res) => {
+  const { secret_message } = req.body;
+  if (!secret_message) {
+    res.status(404).json({ message: "Data must be require" });
+  }
+  fs.appendFile(FilePath, `\n${secret_message}`, (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ message: "Something wents wrong" });
+    }
+    res.status(201).send("Data sccessfully append");
+  });
+};
+
+export const deleteFile = (req, res) => {
+  fs.unlink(FilePath, (err) => {
+    if (err) {
+      if (err.code === "ENOENT") {
+        return res.status(404).json({ message: "No code found" });
+      }
+      console.log(err);
+      return res.status(500).json({ message: "something wents wrong" });
+    }
+    res.status(200).json({ message: "File successfully deleted" });
+  });
+};
+
+export const clearFile = (req, res) => {
+  if (fs.existsSync(FilePath)) {
+    res.status(404).json({ message: "Code not found to clear" });
+  }
+  fs.writeFile(FilePath, "", (err) => {
+    if (err) {
+      return res.status(500).json({ message: "something wents wrong" });
+    }
+    res.status(200).json({ message: "File content cleared successfully" });
+  });
+};
+
+export const metadataFile = (req, res) => {
+  fs.stat(FilePath, (err, stat) => {
+    if (err) {
+      if (err.code === "ENOENT") {
+        return res.status(404).json({ message: "No code found" });
+      }
+      console.log(err);
+      return res.status(500).json({ message: "Something want wrong" });
+    }
+
+    const metadata = {
+      size: `${stat.size} bytes`,
+      create: stat.birthtime.toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+      }),
+      modified: stat.mtime.toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+      }),
+    };
+
+    res.status(200).json(metadata);
   });
 };
